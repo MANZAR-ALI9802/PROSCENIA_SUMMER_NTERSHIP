@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home Page</title>
+</head>
+<body>
+
+  
+  <h2>Navigation</h2>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Service</a></li>
+  </ul>
+
+  
+  <h1>Welcome to the SARDAR MANZAR ALI KHAN OFFICAL</h1>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur alias explicabo minus excepturi doloremque velit voluptates! Doloribus voluptatum, laborum facere eos pariatur dolor voluptatem distinctio ea, dolore quaerat earum rerum!</p>
+
+  
+  <hr>
+  <p>© 2025 My Website. All rights reserved.</p>
+
+</body>
+</html>

@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lists and Tables</title>
+</head>
+<body>
+    <h2>Unordered List</h2>
+    <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+    </ul>
+
+    <h2>Ordered List</h2>
+    <ol>
+        <li>Learn HTML</li>
+        <li>Learn CSS</li>
+        <li>Build Website</li>
+    </ol>
+
+    <h2>Table</h2>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Skill</th>
+        </tr>
+        <tr>
+            <td>Ali</td>
+            <td>HTML</td>
+        </tr>
+        <tr>
+            <td>Ahmed</td>
+            <td>CSS</td>
+        </tr>
+    </table>
+</body>
+</html>
 

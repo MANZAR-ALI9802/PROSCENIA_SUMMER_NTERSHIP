@@ -1,0 +1,20 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    text-align: center;
+    margin: 50px;
+}
+
+h1 {
+    color: #333;
+}
+
+.box {
+    width: 300px;
+    margin: 40px auto;              /* Outer space (around box) */
+    padding: 20px;                  /* Inner space (inside border) */
+    border: 5px solid #4CAF50;      /* Border line around the box */
+    background-color: #e8f5e9;      /* Content background color */
+    font-size: 16px;
+    color: #000;
+}

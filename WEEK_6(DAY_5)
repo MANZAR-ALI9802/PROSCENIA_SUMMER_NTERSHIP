@@ -1,0 +1,212 @@
+Forms in React & Lifting State Up**
+
+---
+
+## 📘 1. Forms in React
+
+### 🧠 Forms are crucial in web applications. React simplifies handling form data and input elements.
+
+#### 🔹 Controlled Components
+
+In React, **controlled components** are those where React manages the form data through **state**.
+
+### ✅ Example: Basic Form with State
+
+```jsx
+import React, { useState } from 'react';
+
+function NameForm() {
+  const [name, setName] = useState('');
+
+  const handleChange = (event) => {
+    setName(event.target.value); // Updates state on input change
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevents default form submission
+    alert('A name was submitted: ' + name);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input
+          type="text"
+          value={name}
+          onChange={handleChange}
+        />
+      </label>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default NameForm;
+```
+
+### 🔍 Key Concepts:
+
+| Concept                   | Explanation                                                |
+| ------------------------- | ---------------------------------------------------------- |
+| `value={name}`            | Binds input to state, making it a **controlled component** |
+| `onChange={handleChange}` | Updates state on input change                              |
+| `onSubmit={handleSubmit}` | Handles form submission                                    |
+| `event.preventDefault()`  | Prevents default form submit (page reload)                 |
+
+---
+
+## 📘 2. Lifting State Up
+
+In React, **lifting state up** refers to moving state from a child component to a **common parent** so multiple components can share it.
+
+---
+
+### ✅ Example: Lifting State Up
+
+Let's create a **Parent** component that controls the form input and passes it down to the **Child** component.
+
+#### 📁 `ParentComponent.js`
+
+```jsx
+import React, { useState } from 'react';
+import ChildComponent from './ChildComponent';
+
+function ParentComponent() {
+  const [name, setName] = useState('');
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
+
+  return (
+    <div>
+      <h2>Parent Component</h2>
+      <ChildComponent name={name} handleChange={handleChange} />
+      <p>Parent says: {name}</p>
+    </div>
+  );
+}
+
+export default ParentComponent;
+```
+
+#### 📁 `ChildComponent.js`
+
+```jsx
+import React from 'react';
+
+function ChildComponent({ name, handleChange }) {
+  return (
+    <div>
+      <h3>Child Component</h3>
+      <input
+        type="text"
+        value={name}
+        onChange={handleChange}
+      />
+      <p>Child says: {name}</p>
+    </div>
+  );
+}
+
+export default ChildComponent;
+```
+
+---
+
+### 🔍 How It Works:
+
+* `ParentComponent` holds the state (`name`).
+* `ChildComponent` receives `name` and `handleChange` via **props**.
+* The input value in `ChildComponent` is **controlled** by the state in `ParentComponent`.
+
+---
+
+## 🧪 Full Demo: Forms & Lifting State Up
+
+### 📁 `App.js`
+
+```jsx
+import React from 'react';
+import ParentComponent from './ParentComponent';
+
+function App() {
+  return (
+    <div>
+      <h1>📋 Forms & Lifting State Up</h1>
+      <ParentComponent />
+    </div>
+  );
+}
+
+export default App;
+```
+
+### 📁 `ParentComponent.js`
+
+```jsx
+import React, { useState } from 'react';
+import ChildComponent from './ChildComponent';
+
+function ParentComponent() {
+  const [name, setName] = useState('');
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
+
+  return (
+    <div>
+      <h2>Parent Component</h2>
+      <ChildComponent name={name} handleChange={handleChange} />
+      <p>Parent says: {name}</p>
+    </div>
+  );
+}
+
+export default ParentComponent;
+```
+
+### 📁 `ChildComponent.js`
+
+```jsx
+import React from 'react';
+
+function ChildComponent({ name, handleChange }) {
+  return (
+    <div>
+      <h3>Child Component</h3>
+      <input
+        type="text"
+        value={name}
+        onChange={handleChange}
+      />
+      <p>Child says: {name}</p>
+    </div>
+  );
+}
+
+export default ChildComponent;
+```
+
+---
+
+## 🧠 Summary Table
+
+| Concept               | Explanation                               |
+| --------------------- | ----------------------------------------- |
+| Controlled Components | Form data is managed by React state       |
+| `value={state}`       | Binds input to state                      |
+| `onChange`            | Updates state on user input               |
+| Lifting State Up      | Move state to a common parent for sharing |
+
+---
+
+### ✅ Output Behavior:
+
+1. Parent and child show the same input field.
+2. Type in the field → Both components update instantly.
+3. The parent manages the state, and the child interacts with it.
+
+We’ll cover how to run side effects in your React components, like fetching data or updating the DOM.

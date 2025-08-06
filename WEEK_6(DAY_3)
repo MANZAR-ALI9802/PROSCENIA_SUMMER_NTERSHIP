@@ -1,0 +1,169 @@
+React State with `useState` & Event Handling**
+
+---
+
+## 🔹 What is State in React?
+
+### 🧠 Definition:
+
+**State** is a built-in React object used to store **data that changes over time** and affects what is rendered.
+
+* Unlike props (which are read-only), **state is mutable**.
+* State allows components to **respond to user input, server data, etc.**
+
+---
+
+## 🔹 `useState` Hook
+
+React provides the `useState()` **Hook** to use state in functional components.
+
+### ✅ Syntax:
+
+```js
+const [value, setValue] = useState(initialValue);
+```
+
+* `value`: The current state value
+* `setValue`: Function to update the state
+* `initialValue`: The default value when component loads
+
+---
+
+## 🔹 Example 1: Simple Counter
+
+```jsx
+import React, { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0); // Initial state is 0
+
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>Increment ➕</button>
+      <button onClick={() => setCount(count - 1)}>Decrement ➖</button>
+      <button onClick={() => setCount(0)}>Reset 🔁</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+---
+
+## 📂 Use in App:
+
+```jsx
+import React from 'react';
+import Counter from './Counter';
+
+function App() {
+  return (
+    <div>
+      <h1>🔁 useState + Event Handling</h1>
+      <Counter />
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+## 🔹 Explanation:
+
+| Line            | Meaning                                       |
+| --------------- | --------------------------------------------- |
+| `useState(0)`   | Creates a state variable `count` with value 0 |
+| `setCount`      | Used to change the `count`                    |
+| `onClick={...}` | Attaches an event handler to the button       |
+
+---
+
+## 🔹 Example 2: Handling Text Input
+
+### 📁 File: `NameForm.js`
+
+```jsx
+import React, { useState } from 'react';
+
+function NameForm() {
+  const [name, setName] = useState('');
+
+  const handleChange = (event) => {
+    setName(event.target.value); // Update state on every keystroke
+  };
+
+  return (
+    <div>
+      <h2>What’s your name?</h2>
+      <input type="text" value={name} onChange={handleChange} />
+      <p>Hello, {name} 👋</p>
+    </div>
+  );
+}
+
+export default NameForm;
+```
+
+---
+
+### 📁 Use in `App.js`
+
+```jsx
+import React from 'react';
+import NameForm from './NameForm';
+
+function App() {
+  return (
+    <div>
+      <h1>🧠 React State + Input Handling</h1>
+      <NameForm />
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+## 🔹 Explanation of Input Example:
+
+| Feature              | How it Works                                 |
+| -------------------- | -------------------------------------------- |
+| `useState('')`       | Initializes empty string for `name`          |
+| `onChange`           | Calls `handleChange` whenever user types     |
+| `event.target.value` | Gets value of input box                      |
+| React re-renders     | When state changes, UI updates automatically |
+
+---
+
+## 🧠 Summary Table
+
+| Concept         | Summary                               |
+| --------------- | ------------------------------------- |
+| `useState`      | Creates state in functional component |
+| `setValue`      | Updates state and re-renders UI       |
+| `onClick`       | Handles button clicks                 |
+| `onChange`      | Handles user input                    |
+| `value={state}` | Keeps input synced with state         |
+
+---
+
+## ✅ Output Example:
+
+### 👇 Counter:
+
+```
+Count: 0
+[Increment ➕] [Decrement ➖] [Reset 🔁]
+```
+
+### 👇 Input:
+
+```
+What’s your name?
+[Type here...] -> Hello, Ali 👋

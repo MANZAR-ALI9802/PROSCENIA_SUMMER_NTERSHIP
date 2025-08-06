@@ -1,0 +1,280 @@
+Understanding the `useEffect` Hook**
+
+---
+
+## 📘 What is `useEffect`?
+
+`useEffect` is a **React Hook** that allows you to run **side effects** in your components. Side effects include operations like:
+
+* Fetching data from an API
+* Subscribing to events
+* Directly manipulating the DOM
+* Setting up timers or intervals
+
+---
+
+## 🔹 Why `useEffect`?
+
+React components **re-render** when their state or props change. If you need to run **code** after rendering (for example, fetching data), you use `useEffect`.
+
+---
+
+## ✅ `useEffect` Syntax
+
+```jsx
+useEffect(() => {
+  // Your side effect code
+}, [dependencies]);
+```
+
+### Explanation:
+
+* The **first argument** is a **callback function** that runs after each render.
+* The **second argument** is an optional array of **dependencies**. If any dependency changes, the effect will re-run.
+
+  * **Empty array (`[]`)**: Effect runs **only once** after the initial render (similar to `componentDidMount`).
+  * **Array with variables**: Effect runs when any of the listed dependencies change.
+
+---
+
+## 🔹 Example 1: Running a Side Effect on Mount (`componentDidMount`)
+
+Let’s start with a simple example where we run a side effect once, just after the component mounts:
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function Timer() {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds((prevSeconds) => prevSeconds + 1);
+    }, 1000);
+
+    // Cleanup function (componentWillUnmount)
+    return () => clearInterval(interval);
+  }, []); // Empty array means this effect runs only once after initial render
+
+  return <h2>Time: {seconds} seconds</h2>;
+}
+
+export default Timer;
+```
+
+### 🔍 Breakdown:
+
+* `useEffect` runs **once** on mount.
+* `setInterval` is used to increase the seconds every second.
+* The **cleanup function** inside `useEffect` (`clearInterval`) ensures that the interval is cleared when the component is unmounted, avoiding memory leaks.
+
+---
+
+## 🔹 Example 2: Fetching Data from an API (`componentDidMount`)
+
+You can use `useEffect` to **fetch data** from an API and update the state accordingly.
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function DataFetcher() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then((response) => response.json())
+      .then((jsonData) => {
+        setData(jsonData);
+        setLoading(false);
+      })
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []); // Empty array, runs only once
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
+
+  return (
+    <div>
+      <h2>Fetched Data:</h2>
+      <ul>
+        {data.map((item) => (
+          <li key={item.id}>{item.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default DataFetcher;
+```
+
+### 🔍 Breakdown:
+
+* The `useEffect` hook fetches data from the API once when the component mounts.
+* `setData` updates the state with the fetched data.
+* `loading` state controls the loading indicator before the data is fetched.
+
+---
+
+## 📘 Example 3: Dependency Array and Re-running the Effect
+
+You can specify a **dependency array** to re-run the effect only when specific values change.
+
+### Example: Updating title when count changes
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    document.title = `Count: ${count}`;
+  }, [count]); // Effect runs when 'count' changes
+
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+### 🔍 Breakdown:
+
+* The effect **updates the document title** every time `count` changes.
+* The **dependency array** `[count]` makes sure the effect only runs when the `count` state changes.
+
+---
+
+## 🧪 Full Demo: Timer + Fetch Data + Updating Document Title
+
+### 📁 `App.js`
+
+```jsx
+import React from 'react';
+import Timer from './Timer';
+import DataFetcher from './DataFetcher';
+import Counter from './Counter';
+
+function App() {
+  return (
+    <div>
+      <h1>⏰ useEffect Hook Demo</h1>
+      <Timer />
+      <DataFetcher />
+      <Counter />
+    </div>
+  );
+}
+
+export default App;
+```
+
+### 📁 `Timer.js`
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function Timer() {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds((prevSeconds) => prevSeconds + 1);
+    }, 1000);
+
+    return () => clearInterval(interval); // Cleanup
+  }, []);
+
+  return <h2>Time: {seconds} seconds</h2>;
+}
+
+export default Timer;
+```
+
+### 📁 `DataFetcher.js`
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function DataFetcher() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then((response) => response.json())
+      .then((jsonData) => {
+        setData(jsonData);
+        setLoading(false);
+      })
+      .catch((error) => console.error('Error:', error));
+  }, []);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
+
+  return (
+    <div>
+      <h2>Fetched Data:</h2>
+      <ul>
+        {data.map((item) => (
+          <li key={item.id}>{item.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default DataFetcher;
+```
+
+### 📁 `Counter.js`
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    document.title = `Count: ${count}`;
+  }, [count]);
+
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+---
+
+## 🧠 Summary Table
+
+| Concept                         | Explanation                                |
+| ------------------------------- | ------------------------------------------ |
+| `useEffect`                     | Runs side effects in functional components |
+| Empty Array `[]`                | Runs effect only once after mount          |
+| Dependency Array `[dependency]` | Runs effect when dependency changes        |
+| Cleanup Function                | Cleans up side effects on unmount          |
+
+---
+
+### ✅ Output Behavior:
+
+* Timer increments every second.
+* Data is fetched and displayed.
+* Document title updates with the count.
+We’ll build a small app to put everything you’ve learned into practice!

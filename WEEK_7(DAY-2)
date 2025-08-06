@@ -1,0 +1,119 @@
+
+  **useEffect for API Calls (Using `fetch`)**
+
+---
+
+### 📘 What is `useEffect`?
+
+* `useEffect` is a React **hook** that runs **side effects** like API calls.
+* You use it to fetch data **when the component loads**.
+
+---
+
+### 🔧 API Used in This Demo
+
+We'll use this free public API:
+🌐 `https://jsonplaceholder.typicode.com/posts`
+
+---
+
+### 📁 Folder Structure
+
+```
+useeffect-api-demo/
+├── src/
+│   ├── App.js
+│   └── components/
+│       └── PostList.js
+```
+
+---
+
+### 🧩 Demo Code
+
+#### `src/App.js`
+
+```jsx
+import React from 'react';
+import PostList from './components/PostList';
+
+function App() {
+  return (
+    <div>
+      <h1>📬 Blog Posts</h1>
+      <PostList />
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+#### `src/components/PostList.js`
+
+```jsx
+import React, { useEffect, useState } from 'react';
+
+function PostList() {
+  const [posts, setPosts] = useState([]);     // Store API data
+  const [loading, setLoading] = useState(true); // Show loading state
+
+  useEffect(() => {
+    // API call when component mounts
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then((response) => response.json())
+      .then((data) => {
+        setPosts(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching posts:', error);
+        setLoading(false);
+      });
+  }, []); // Empty dependency → runs only once when mounted
+
+  if (loading) return <p>Loading posts...</p>;
+
+  return (
+    <div>
+      {posts.slice(0, 10).map((post) => (
+        <div key={post.id} style={{ borderBottom: '1px solid gray', marginBottom: '10px' }}>
+          <h3>{post.title}</h3>
+          <p>{post.body}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default PostList;
+```
+
+---
+
+### ✅ Output
+
+* When the page loads, it fetches blog posts from the API.
+* While loading, it shows: `Loading posts...`
+* Then it displays the top 10 posts with title & body.
+
+---
+
+### 🧠 Key Concepts
+
+| Term        | Description                                            |
+| ----------- | ------------------------------------------------------ |
+| `useEffect` | Runs after the component mounts. Perfect for API calls |
+| `fetch()`   | Browser built-in method to make HTTP requests          |
+| `useState`  | Stores fetched data and loading state                  |
+| `[]`        | Empty array = run only once (on first render)          |
+
+---
+
+### ✅ Bonus: Error Handling
+
+Always use `.catch()` to catch errors from API calls.
+
+---

@@ -1,0 +1,156 @@
+Mini Project – Simple Counter, Input Form, or Color Picker**
+
+---
+
+## 📘 Project Overview
+
+For Day 7, you’ll create a mini project to apply the concepts of:
+
+* **State** management with `useState`
+* **Event handling**
+* **Forms** and **lifting state up**
+* **Conditional rendering**
+* **Side effects** with `useEffect`
+
+### 🎯 Choose a Mini Project:
+
+1. **Simple Counter App**: A counter that can increment, decrement, and reset.
+2. **Input Form App**: A form where users can submit their name and display it.
+3. **Color Picker App**: A form where users select a color, and the background changes to that color.
+
+### You can choose any project, but I’ll cover the **Color Picker App** as an example.
+
+---
+
+## 🔹 **Color Picker App** - Project Details
+
+### Step 1: **Setting up State**
+
+You will need a state variable to store the selected color.
+
+```jsx
+import React, { useState } from 'react';
+
+function ColorPicker() {
+  const [color, setColor] = useState('#ffffff'); // Initial color (white)
+
+  const handleChangeColor = (event) => {
+    setColor(event.target.value); // Update color on input change
+  };
+
+  return (
+    <div style={{ backgroundColor: color, height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div>
+        <h2>Pick a Color:</h2>
+        <input type="color" value={color} onChange={handleChangeColor} />
+        <p>Current Color: {color}</p>
+      </div>
+    </div>
+  );
+}
+
+export default ColorPicker;
+```
+
+### 🔍 Breakdown:
+
+* **`useState('#ffffff')`**: Initializes color as white.
+* **`input[type="color"]`**: HTML color input to pick colors.
+* **`setColor`**: Updates the color in the state.
+* **Inline styling**: Changes the background color based on the selected color.
+
+---
+
+### Step 2: **Using the Color Picker in the App**
+
+Now, use `ColorPicker` in your `App.js`:
+
+```jsx
+import React from 'react';
+import ColorPicker from './ColorPicker';
+
+function App() {
+  return (
+    <div>
+      <h1>🎨 Color Picker App</h1>
+      <ColorPicker />
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+### Step 3: **Enhance the App with a Reset Button**
+
+Add a reset button to reset the color to the default white.
+
+```jsx
+import React, { useState } from 'react';
+
+function ColorPicker() {
+  const [color, setColor] = useState('#ffffff');
+
+  const handleChangeColor = (event) => {
+    setColor(event.target.value);
+  };
+
+  const handleResetColor = () => {
+    setColor('#ffffff');
+  };
+
+  return (
+    <div style={{ backgroundColor: color, height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div>
+        <h2>Pick a Color:</h2>
+        <input type="color" value={color} onChange={handleChangeColor} />
+        <button onClick={handleResetColor}>Reset Color</button>
+        <p>Current Color: {color}</p>
+      </div>
+    </div>
+  );
+}
+
+export default ColorPicker;
+```
+
+---
+
+## 🧠 Key Concepts Used:
+
+* **useState**: Managing state for the selected color.
+* **Event Handling**: Capturing user input through `onChange` and `onClick`.
+* **Conditional Rendering**: Dynamically updating the background color based on user selection.
+* **CSS Styling**: Inline styles for color change.
+
+---
+
+### ✅ Final Output Behavior:
+
+1. The app has a color picker input that allows users to select a color.
+2. The selected color changes the background of the entire page.
+3. A "Reset Color" button resets the background to white.
+
+---
+
+## 🧠 Summary of Day 7 Project:
+
+* **State**: Used to manage the selected color.
+* **Event Handling**: Handled input changes and button clicks.
+* **Styling**: Inline styles for dynamic updates.
+* **`useState` and `useEffect`**: Used effectively for updating the UI and handling side effects.
+
+---
+
+
+
+This mini project reinforces everything you've learned so far:
+
+* Creating components
+* Managing state
+* Handling user interactions
+* Fetching data
+* Conditional rendering
+* Effectively using hooks like `useState` and `useEffect`

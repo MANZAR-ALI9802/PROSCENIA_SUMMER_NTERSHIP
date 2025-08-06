@@ -1,0 +1,170 @@
+Conditional Rendering and List Rendering with `.map()`**
+
+---
+
+## 📘 1. What is Conditional Rendering?
+
+Just like JavaScript uses `if`/`else` or `ternary`, React lets you **conditionally show or hide elements** in your JSX.
+
+---
+
+### 🔹 Example: Show or Hide a Message
+
+```jsx
+import React, { useState } from 'react';
+
+function ToggleMessage() {
+  const [show, setShow] = useState(true);
+
+  return (
+    <div>
+      <button onClick={() => setShow(!show)}>
+        {show ? 'Hide' : 'Show'} Message
+      </button>
+
+      {show && <p>This is a secret message! 🤫</p>}
+    </div>
+  );
+}
+
+export default ToggleMessage;
+```
+
+---
+
+### 🔍 How It Works:
+
+| Concept                | Code                                    |
+| ---------------------- | --------------------------------------- |
+| `useState(true)`       | Initializes `show` as `true`            |
+| `{show && <p>...</p>}` | Shows `<p>` **only if `show` is true**  |
+| `setShow(!show)`       | Toggles the value (true → false → true) |
+
+---
+
+## 🔄 Alternate: Ternary Operator
+
+```jsx
+{loggedIn ? <h2>Welcome back!</h2> : <h2>Please log in.</h2>}
+```
+
+---
+
+## 📘 2. List Rendering with `.map()`
+
+If you have an **array of data**, React can render it using the `.map()` method.
+
+---
+
+### 🔹 Example: Displaying a List of Users
+
+```jsx
+function UserList() {
+  const users = ['Ali', 'Sara', 'Ahmed'];
+
+  return (
+    <div>
+      <h2>👥 User List</h2>
+      <ul>
+        {users.map((user, index) => (
+          <li key={index}>Hello, {user}!</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default UserList;
+```
+
+---
+
+### 🔍 Key Concepts:
+
+| Concept  | Description                                        |
+| -------- | -------------------------------------------------- |
+| `.map()` | Loops through the array                            |
+| `key`    | **Must be unique**; helps React identify each item |
+| `user`   | Current item from array                            |
+| `index`  | Position in array (used as fallback `key`)         |
+
+---
+
+## 🧪 Full Demo: Conditional Rendering + List
+
+### 📁 `App.js`
+
+```jsx
+import React, { useState } from 'react';
+import UserList from './UserList';
+
+function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  return (
+    <div>
+      <h1>🎯 Conditional & List Rendering</h1>
+
+      <button onClick={() => setLoggedIn(!loggedIn)}>
+        {loggedIn ? 'Logout' : 'Login'}
+      </button>
+
+      {loggedIn ? (
+        <div>
+          <h2>Welcome back, user!</h2>
+          <UserList />
+        </div>
+      ) : (
+        <h2>Please log in to see the user list.</h2>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+### 📁 `UserList.js`
+
+```jsx
+import React from 'react';
+
+function UserList() {
+  const users = ['Ali', 'Sara', 'Ahmed', 'Zara'];
+
+  return (
+    <div>
+      <h3>User List:</h3>
+      <ul>
+        {users.map((user, index) => (
+          <li key={index}>👤 {user}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default UserList;
+```
+
+---
+
+## ✅ Output Behavior:
+
+1. **Default**: Shows "Please log in to see the user list."
+2. **After clicking Login**: Shows welcome + list of users.
+3. **Click Logout**: Hides everything again.
+
+---
+
+## 🧠 Summary Table
+
+| Feature               | Usage                                |
+| --------------------- | ------------------------------------ |
+| Conditional Rendering | `if`, ternary `? :`, `&&`            |
+| `.map()`              | Loop over arrays to render elements  |
+| `key`                 | Unique identifier for each list item |
+| State-Based UI        | UI changes based on `useState`       |
+

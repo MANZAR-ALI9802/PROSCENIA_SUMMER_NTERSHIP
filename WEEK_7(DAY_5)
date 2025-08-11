@@ -1,0 +1,104 @@
+# **Conditional Styling & Component Libraries in React**
+
+## **1. Conditional Styling in React**
+
+Conditional styling means **changing the appearance of elements** based on certain conditions (state, props, or variables).
+
+### **Common Methods**
+
+1. **Ternary Operator**
+
+```jsx
+<div style={{ color: isActive ? "green" : "red" }}>
+  {isActive ? "Active" : "Inactive"}
+</div>
+```
+
+2. **Logical AND (`&&`)**
+
+```jsx
+<p style={{ fontWeight: isBold && "bold" }}>
+  This text might be bold
+</p>
+```
+
+3. **Dynamic Class Names**
+
+```jsx
+<div className={isDark ? "dark-theme" : "light-theme"}>
+  Theme Example
+</div>
+```
+
+---
+
+## **2. Component Libraries**
+
+Component libraries provide **prebuilt UI components** (buttons, forms, grids) that you can style and customize without building from scratch.
+
+---
+
+### **2.1 Tailwind CSS**
+
+Tailwind is a **utility-first CSS framework** where you add classes directly in JSX to style elements.
+
+**Setup**:
+
+```bash
+npm install -D tailwindcss
+npx tailwindcss init
+```
+
+**Example**:
+
+```jsx
+<button className={isPrimary ? "bg-blue-500 text-white" : "bg-gray-300"}>
+  Click Me
+</button>
+```
+
+---
+
+### **2.2 Bootstrap**
+
+Bootstrap is a **popular CSS framework** with ready-made responsive components.
+
+**Setup**:
+
+```bash
+npm install bootstrap
+```
+
+In `index.js`:
+
+```jsx
+import 'bootstrap/dist/css/bootstrap.min.css';
+```
+
+**Example**:
+
+```jsx
+<button className={isPrimary ? "btn btn-primary" : "btn btn-secondary"}>
+  Click Me
+</button>
+```
+
+---
+
+## **3. Comparison Table**
+
+| Feature        | Tailwind CSS          | Bootstrap           |
+| -------------- | --------------------- | ------------------- |
+| Approach       | Utility-first classes | Prebuilt components |
+| Customization  | High (custom classes) | Medium (overrides)  |
+| Learning Curve | Moderate              | Easy for beginners  |
+
+---
+
+## **4. Summary**
+
+* **Conditional styling** lets you adapt the UI dynamically.
+* **Tailwind**: Flexible, utility-based styling.
+* **Bootstrap**: Fast setup with prebuilt responsive components.
+* Both can be combined with **React’s conditional rendering** for dynamic UI changes.
+

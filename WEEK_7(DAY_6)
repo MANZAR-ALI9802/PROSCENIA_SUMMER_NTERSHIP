@@ -1,0 +1,98 @@
+# **React Context API — Basics**
+
+## **1. What is the Context API?**
+
+The **Context API** is a built-in React feature that allows you to **share data** between components **without passing props manually** through every level of the component tree.
+
+It helps solve **"prop drilling"** — where you pass the same prop through many intermediate components that don’t need it.
+
+---
+
+## **2. When to Use It**
+
+* Global app settings (theme, language)
+* Auth state (logged in user info)
+* Data that multiple components need (cart items, user preferences)
+
+---
+
+## **3. Key Parts of Context API**
+
+1. **Create Context** – `React.createContext()`
+2. **Provider** – Wraps components to give them access to data.
+3. **Consumer / useContext** – Access the data inside child components.
+
+---
+
+## **4. Basic Example**
+
+### **📂 File: `ThemeContext.js`**
+
+```javascript
+import { createContext } from "react";
+
+const ThemeContext = createContext(); // Create Context
+export default ThemeContext;
+```
+
+---
+
+### **📂 File: `App.js`**
+
+```javascript
+import React, { useState } from "react";
+import ThemeContext from "./ThemeContext";
+import ChildComponent from "./ChildComponent";
+
+export default function App() {
+  const [theme, setTheme] = useState("light");
+
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <div>
+        <h1>React Context API Example</h1>
+        <ChildComponent />
+      </div>
+    </ThemeContext.Provider>
+  );
+}
+```
+
+---
+
+### **📂 File: `ChildComponent.js`**
+
+```javascript
+import React, { useContext } from "react";
+import ThemeContext from "./ThemeContext";
+
+export default function ChildComponent() {
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  return (
+    <div>
+      <p>Current Theme: {theme}</p>
+      <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+        Toggle Theme
+      </button>
+    </div>
+  );
+}
+```
+
+---
+
+## **5. How It Works**
+
+1. **`ThemeContext`** is created.
+2. **Provider** in `App.js` wraps child components and passes down `theme` and `setTheme`.
+3. `ChildComponent` uses `useContext(ThemeContext)` to **directly access** the value — no props needed.
+
+---
+
+## **6. Summary**
+
+* Context API is perfect for **global state sharing**.
+* Avoids **prop drilling**.
+* Use `createContext` → `Provider` → `useContext`.
+

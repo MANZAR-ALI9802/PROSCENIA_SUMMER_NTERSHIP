@@ -1,0 +1,131 @@
+**📄 Custom Hooks in React — Complete Report**
+
+### **1. What Are Custom Hooks?**
+
+A **Custom Hook** is **your own function** in React that starts with the word `"use"` and allows you to **reuse stateful logic** between components.
+
+* They **don’t add new features to React** — instead, they allow you to **extract and reuse** logic that uses React hooks (`useState`, `useEffect`, etc.).
+* A custom hook **must** follow the [React rules of hooks](https://react.dev/reference/react/hooks#rules-of-hooks):
+
+  1. Only call hooks at the top level (not inside loops, conditions, or nested functions).
+  2. Only call hooks from React functions (components or other hooks).
+
+---
+
+### **2. Why Use Custom Hooks?**
+
+Imagine you have multiple components that **fetch data from an API**, or **handle form input**, or **manage timers** — without custom hooks, you’d have to **repeat the same logic** in each component.
+With a custom hook:
+
+* You **write once, use anywhere**.
+* Code becomes **cleaner** and **easier to maintain**.
+* Testing logic separately is easier.
+
+---
+
+### **3. How Are Custom Hooks Different from Normal Functions?**
+
+| **Normal JS Function**        | **Custom Hook**                                  |
+| ----------------------------- | ------------------------------------------------ |
+| Can have any name             | Must start with `use`                            |
+| Cannot use React hooks inside | Can use hooks like `useState`, `useEffect`, etc. |
+| Doesn’t preserve state        | Preserves state between renders                  |
+
+---
+
+### **4. Steps to Create a Custom Hook**
+
+1. Think of a piece of **reusable logic** you want to share.
+2. Create a function starting with `"use"` (e.g., `useFetch`, `useLocalStorage`).
+3. Inside it, use any built-in hooks (`useState`, `useEffect`, etc.).
+4. Return **values or functions** that the component will use.
+
+---
+
+### **5. Basic Demo — `useCounter` Hook**
+
+Let’s create a custom hook that manages a counter.
+
+#### **📂 File: `useCounter.js`**
+
+```javascript
+import { useState } from "react";
+
+export default function useCounter(initialValue = 0) {
+  const [count, setCount] = useState(initialValue);
+
+  const increment = () => setCount(prev => prev + 1);
+  const decrement = () => setCount(prev => prev - 1);
+  const reset = () => setCount(initialValue);
+
+  // Return anything you want to expose
+  return { count, increment, decrement, reset };
+}
+```
+
+---
+
+#### **📂 File: `CounterComponent.js`**
+
+```javascript
+import React from "react";
+import useCounter from "./useCounter";
+
+export default function CounterComponent() {
+  // Use custom hook
+  const { count, increment, decrement, reset } = useCounter(5);
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "20px" }}>
+      <h2>Count: {count}</h2>
+      <button onClick={increment}>➕ Increment</button>
+      <button onClick={decrement}>➖ Decrement</button>
+      <button onClick={reset}>🔄 Reset</button>
+    </div>
+  );
+}
+```
+
+---
+
+#### **📂 File: `App.js`**
+
+```javascript
+import React from "react";
+import CounterComponent from "./CounterComponent";
+
+export default function App() {
+  return (
+    <div>
+      <h1>React Custom Hook Example</h1>
+      <CounterComponent />
+    </div>
+  );
+}
+```
+
+---
+
+### **6. How It Works**
+
+1. `useCounter` manages the counter state (`count`) and provides functions to change it.
+2. `CounterComponent` **calls the hook** to get access to that state and actions.
+3. Multiple components can now **reuse `useCounter` without rewriting logic**.
+
+---
+
+### **7. Real-World Examples of Custom Hooks**
+
+* **`useFetch`** – Fetch data from an API.
+* **`useLocalStorage`** – Store and retrieve values from browser local storage.
+* **`useWindowSize`** – Detect window size changes.
+* **`useDebounce`** – Delay a value update until user stops typing.
+
+---
+
+8. Key Benefits**
+
+✅ DRY (Don’t Repeat Yourself) code
+✅ Centralized logic → easier maintenance
+✅ Easy to test logic separately
+✅ Keeps components clean and focused on **UI**

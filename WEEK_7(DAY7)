@@ -1,0 +1,160 @@
+ Weather App (React + Plain CSS)**
+
+📂 src/App.jS
+
+```javascript
+import React, { useState } from "react";
+import Weather from "./Weather";
+import "./App.css";
+
+export default function App() {
+  const [city, setCity] = useState("");
+  const [search, setSearch] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSearch(city);
+  };
+
+  return (
+    <div className="app">
+      <h1>🌦 Weather App</h1>
+
+      <form onSubmit={handleSubmit} className="search-form">
+        <input
+          type="text"
+          placeholder="Enter city name..."
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      {search && <Weather city={search} />}
+    </div>
+  );
+}
+```
+
+---
+
+## **📂 src/Weather.js**
+
+```javascript
+import React, { useState, useEffect } from "react";
+import "./App.css";
+
+export default function Weather({ city }) {
+  const API_KEY = "YOUR_API_KEY"; // Replace with your OpenWeatherMap API key
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    setLoading(true);
+    setError("");
+    fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("City not found");
+        }
+        return res.json();
+      })
+      .then((result) => {
+        setData(result);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, [city]);
+
+  if (loading) return <p className="loading">Loading...</p>;
+  if (error) return <p className="error">{error}</p>;
+
+  return (
+    <div className="weather-card">
+      <h2>
+        {data.name}, {data.sys.country}
+      </h2>
+      <p>{data.weather[0].description}</p>
+      <h1>{Math.round(data.main.temp)}°C</h1>
+    </div>
+  );
+}
+```
+
+---
+
+## **📂 src/App.css**
+
+```css
+body {
+  background: linear-gradient(to bottom right, #0077ff, #4a00e0);
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  text-align: center;
+}
+
+.app {
+  padding: 20px;
+}
+
+.search-form {
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 8px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+}
+
+button {
+  padding: 8px 12px;
+  margin-left: 8px;
+  background: #ffcc00;
+  color: black;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #ffdd33;
+}
+
+.weather-card {
+  background: white;
+  color: black;
+  display: inline-block;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 200px;
+}
+
+.loading {
+  font-size: 18px;
+}
+
+.error {
+  color: #ff6666;
+  font-weight: bold;
+}
+```
+
+---
+
+2. Replace the `src` folder with the above files.
+3. Add your OpenWeatherMap **API key**.
+4. Run:
+
+```bash
+npm start
